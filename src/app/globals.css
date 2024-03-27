@@ -18,9 +18,22 @@ body {
 
 }
 
+button, ul, ol, h1, h2, h3, h4, h5, h6, p, fieldset, figure, dl, dd, blockquote {
+    margin: 0;
+}
+
+ul, ol, fieldset, button, th, td {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
 a {
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
+    outline: none;
 }
 
 .container {
