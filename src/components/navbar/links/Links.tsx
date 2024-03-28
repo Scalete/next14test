@@ -1,36 +1,73 @@
-import Link from 'next/link'
-import { FC } from 'react'
+"use client"
+
+import { FC, useState } from 'react'
 import styles from './links.module.css'
+import { ILink } from '@/interfaces/navbar/interface'
+import NavLink from './navLink/NavLink'
+
+const links: ILink[] = [
+    {
+        title: "Homepage",
+        path: '/',
+    },
+    {
+        title: "About",
+        path: '/about',
+    },
+    {
+        title: "Contact",
+        path: '/contact',
+    },
+    {
+        title: "Blog",
+        path: '/blog',
+    },
+]
 
 const Links: FC = () => {
 
-    const links = [
-        {
-            title: "Homepage",
-            path: '/',
-        },
-        {
-            title: "About",
-            path: '/about',
-        },
-        {
-            title: "Contact",
-            path: '/contact',
-        },
-        {
-            title: "Blog",
-            path: '/blog',
-        },
-    ]
+    const [open, setOpen] = useState(false);
+
+    //Temporary
+    const session = true;
+    const isAdmin = true;
 
     return (
-        <ul className={styles.links}>
+        <div className={styles.container}>
+            <ul className={styles.links}>
+                {
+                    links.map(((link, i) => (
+                        <NavLink key={i} item={link}/>
+                    )))
+                }
+                {
+                    session ? (
+                        <>
+                            {
+                                isAdmin && (
+                                    <NavLink item={{title: 'Admin', path: '/admin'}}/>
+                                )
+                            }
+                            <button className={styles.logout}>Logout</button>
+                        </>
+                    ): (
+                        <NavLink item={{title: 'Login', path: '/login'}}/>
+                    )
+                }
+            </ul>
+            <button className={styles.menuButton} onClick={() => setOpen(prev => !prev)}>Menu</button>
             {
-                links.map(((link, i) => (
-                    <li key={i}><Link href={link.path}>{link.title}</Link></li>
-                )))
+                open && (
+                    <ul className={styles.mobileLinks}>
+                        {
+                            links.map(((link, i) => (
+                                <NavLink key={i} item={link}/>
+                            )))
+                        }
+                    </ul>
+                )
             }
-        </ul>
+        </div>
     )
 }
 
